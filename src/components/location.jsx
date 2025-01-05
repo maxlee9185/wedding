@@ -42,40 +42,39 @@ const Map = styled.div`
 
 const Location = () => {
   useEffect(() => {
-    // 스크립트를 비동기로 로드합니다.
-    const loadRoughMap = async () => {
-      try {
-        const existingScript = document.querySelector(
-          ".daum_roughmap_loader_script"
-        );
-
-        // 스크립트가 이미 로드된 경우 처리
-        if (existingScript) {
-          if (window.daum && window.daum.roughmap && window.daum.roughmap.Lander) {
-            initializeMap();
-          }
-          return;
-        }
-
-        // 스크립트 동적 로드
-        const script = document.createElement("script");
-        script.charset = "UTF-8";
-        script.src =
-          "https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js";
-        script.className = "daum_roughmap_loader_script";
-        script.async = true;
-        script.onload = () => {
-          if (window.daum && window.daum.roughmap && window.daum.roughmap.Lander) {
-            initializeMap();
-          }
-        };
-        document.body.appendChild(script);
-      } catch (error) {
-        console.error("Failed to load the map script:", error);
+    const loadRoughMap = () => {
+      // 이미 로드된 스크립트인지 확인
+      if (document.querySelector(".daum_roughmap_loader_script")) {
+        waitForLander();
+        return;
       }
+
+      // 스크립트 동적 로드
+      const script = document.createElement("script");
+      script.charset = "UTF-8";
+      script.src =
+        "https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js";
+      script.className = "daum_roughmap_loader_script";
+      script.async = true;
+      script.onload = () => {
+        waitForLander();
+      };
+      document.body.appendChild(script);
     };
 
-    // 맵 초기화 함수
+    const waitForLander = () => {
+      const checkInterval = setInterval(() => {
+        if (
+          window.daum &&
+          window.daum.roughmap &&
+          typeof window.daum.roughmap.Lander === "function"
+        ) {
+          clearInterval(checkInterval);
+          initializeMap();
+        }
+      }, 100); // 100ms 간격으로 확인
+    };
+
     const initializeMap = () => {
       try {
         new window.daum.roughmap.Lander({
@@ -89,7 +88,6 @@ const Location = () => {
       }
     };
 
-    // 비동기 호출
     loadRoughMap();
   }, []);
 
