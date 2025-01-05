@@ -44,9 +44,9 @@ const Location = () => {
   useEffect(() => {
     // 스크립트 로드 함수
     const loadScript = () => {
-      if (document.querySelector(".daum_roughmap_loader_script")) {
-        return; // 이미 스크립트가 로드된 경우 중복 실행 방지
-      }
+      // if (document.querySelector(".daum_roughmap_loader_script")) {
+      //   return; // 이미 스크립트가 로드된 경우 중복 실행 방지
+      // }
       const script = document.createElement("script");
       script.charset = "UTF-8";
       script.src = "https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js";
