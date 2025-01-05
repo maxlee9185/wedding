@@ -45,7 +45,7 @@ const Location = () => {
     const loadKakaoMap = () => {
       // 스크립트가 이미 로드되었는지 확인
       if (document.querySelector(".daum_roughmap_loader_script")) {
-        initializeMap();
+        resolve();
         return;
       }
 
