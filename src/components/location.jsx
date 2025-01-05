@@ -41,56 +41,30 @@ const Map = styled.div`
 `;
 
 const Location = () => {
-  // 카카오 맵 불러오기
-
-  // <!-- 3. 실행 스크립트 -->
-  const executeScript = () => {
-    const scriptTag = document.createElement("script");
-    const inlineScript = document.createTextNode(`new daum.roughmap.Lander({
-    "timestamp" : "1736064552861",
-		"key" : "2mp5o",
-		"mapWidth" : "640",
-		"mapHeight" : "360"
-  }).render();`);
-    scriptTag.appendChild(inlineScript);
-    document.body.appendChild(scriptTag);
-  };
-
-  // <!-- 2. 설치 스크립트 * 지도 퍼가기 서비스를 2개 이상 넣을 경우, 설치 스크립트는 하나만 삽입합니다. -->
-  // document.write 문제가 발생해서 해당 파일을 직접 가져온다음 수정했음
-  const InstallScript = () => {
-    (function () {
-      let c = window.location.protocol === "https:" ? "https:" : "http:";
-      let a = "16137cec";
-
-      if (window.daum && window.daum.roughmap && window.daum.roughmap.cdn) {
-        return;
-      }
-      window.daum = window.daum || {};
-      window.daum.roughmap = {
-        cdn: a,
-        URL_KEY_DATA_LOAD_PRE: c + "//t1.daumcdn.net/roughmap/",
-        url_protocal: c,
-      };
-      let b =
-        c +
-        "//t1.daumcdn.net/kakaomapweb/place/jscss/roughmap/" +
-        a +
-        "/roughmapLander.js";
-
-      // document.write -> doumnet.body.append로 수정
-      const scriptTag = document.createElement("script");
-      scriptTag.src = b;
-      document.body.append(scriptTag);
-      scriptTag.onload = () => {
-        executeScript();
-      };
-    })();
-  };
-
   useEffect(() => {
-    InstallScript();
-  }, [InstallScript]);
+    // 스크립트 로드 함수
+    const loadScript = () => {
+      if (document.querySelector(".daum_roughmap_loader_script")) {
+        return; // 이미 스크립트가 로드된 경우 중복 실행 방지
+      }
+      const script = document.createElement("script");
+      script.charset = "UTF-8";
+      script.src = "https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js";
+      script.className = "daum_roughmap_loader_script";
+      script.onload = () => {
+        new window.daum.roughmap.Lander({
+          timestamp: "1736064552861",
+          key: "2mp5o",
+          mapWidth: "640",
+          mapHeight: "360",
+        }).render();
+      };
+      document.body.appendChild(script);
+    };
+
+    // DOM이 렌더링된 후 스크립트 실행
+    loadScript();
+  }, []);
 
   return (
     <Wrapper>
