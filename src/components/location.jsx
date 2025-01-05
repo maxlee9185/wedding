@@ -42,10 +42,10 @@ const Map = styled.div`
 
 const Location = () => {
   useEffect(() => {
-    const loadRoughMap = () => {
-      // 이미 로드된 스크립트인지 확인
+    const loadKakaoMap = () => {
+      // 스크립트가 이미 로드되었는지 확인
       if (document.querySelector(".daum_roughmap_loader_script")) {
-        waitForLander();
+        initializeMap();
         return;
       }
 
@@ -57,38 +57,22 @@ const Location = () => {
       script.className = "daum_roughmap_loader_script";
       script.async = true;
       script.onload = () => {
-        waitForLander();
+        initializeMap();
       };
       document.body.appendChild(script);
     };
 
-    const waitForLander = () => {
-      const checkInterval = setInterval(() => {
-        if (
-          window.daum &&
-          window.daum.roughmap &&
-          typeof window.daum.roughmap.Lander === "function"
-        ) {
-          clearInterval(checkInterval);
-          initializeMap();
-        }
-      }, 100); // 100ms 간격으로 확인
-    };
-
     const initializeMap = () => {
-      try {
-        new window.daum.roughmap.Lander({
-          timestamp: "1736064552861",
-          key: "2mp5o",
-          mapWidth: "640",
-          mapHeight: "360",
-        }).render();
-      } catch (error) {
-        console.error("Error initializing the map:", error);
-      }
+      // 카카오 맵 초기화
+      new window.daum.roughmap.Lander({
+        timestamp: "1736065659374", // 변경 가능
+        key: "2mp5t", // 변경 가능
+        mapWidth: "640",
+        mapHeight: "360",
+      }).render();
     };
 
-    loadRoughMap();
+    loadKakaoMap();
   }, []);
 
   return (
@@ -98,7 +82,7 @@ const Location = () => {
       </Divider>
       <Image src={Flower} />
       <Map
-        id="daumRoughmapContainer1736064552861"
+        id="daumRoughmapContainer1736065659374" // 맵 컨테이너 ID
         className="root_daum_roughmap root_daum_roughmap_landing"
       ></Map>
       <Content>
