@@ -72,6 +72,10 @@ const Greeting = () => {
         <br />
         <br />
         앞날을 축복해 주시면 감사하겠습니다.
+        <br /> 
+        * 화환은 정중히 사양합니다.
+        <br />
+        * 주차 공간이 협소하오니 가급적 대중교통을 이용해주시기 바랍니다.
       </Content>
       <GroomBride data-aos="fade-up">
         {GROOM_FATHER_NAME} · {GROOM_MOTHER_NAME}의 장남 {GROOM_NAME}
