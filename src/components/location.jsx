@@ -47,8 +47,8 @@ const Location = () => {
   const executeScript = () => {
     const scriptTag = document.createElement("script");
     const inlineScript = document.createTextNode(`new daum.roughmap.Lander({
-    "timestamp" : "1736063812946",
-		"key" : "2mp5i",
+    "timestamp" : "1736064378134",
+		"key" : "2mp5k",
 		"mapWidth" : "640",
 		"mapHeight" : "360"
   }).render();`);
