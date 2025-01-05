@@ -54,7 +54,7 @@ const IndexPage = () => {
       <Gallery />
       <Location />
       <Quote />
-      <CongratulatoryMoney />
+      {/* <CongratulatoryMoney /> */}
       <Share />
       <Footer
         style={{
